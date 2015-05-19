@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="UTF-8">
+		<title>Movie Profile</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/popupStyle.css">
+	</head>
+	<body>
+        <div id="wrapper">    
+            <header>
+                <a href="timeline.html"><img src="img/logo-small.png" class="header_img"></img></a>
+                <form>
+                   	<select name="search_kind">
+                    	<option value="01">All</option>
+                        <option value="02">Film</option>
+                        <option value="03">People</option>
+                    </select>
+                	<input type="text" name="login" value="" placeholder="Username or Email" class="header_input">
+                    <input type="submit" name="commit" value=" " class="header_button">
+                </form>
+				<a href=""><img src="img/exit.png" class="right_img header_img"></img></a>
+                <a href=""><img src="img/setting.png" class="right_img header_img"></img></a>
+				<a href="userprofile.html"><img src="img/user.png" class="right_img header_img"></img></a>
+				<a href=""><img id="notif_pic" src="img/notif.png" class="right_img header_img"></img></a>
+
+            <div id='notif' style="display: none;">
+                <div class="suggested_people">
+                    <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
+                <p>
+                    <a href="userprofile.html">Navid Mashayekhi</a>
+					Liked your <a href="post.html">post</a>
+                </p>
+                </div>
+                <hr>
+                <div class="suggested_people">
+                    <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
+                <p>
+                    <a href="userprofile.html">Navid Mashayekhi</a>
+					commented on your <a href="post.html">post</a>
+                </p>
+                </div>
+            </div>
+            </header>
+            <div id="extraDiv"></div>
+            <div>		
+                <aside>
+                    <h1> Suggested Movies </h1>
+                    <hr>
+                    <div class="suggested_movie">
+                        <a href=""><img src="img/int.png" title="Interstellar" class="left_img suggested_movie_img"></img></a>
+                        <a href=""><h2>Interstellar</h2></a>
+                        <img src="img/rate_10.png"></img>
+                        <a href="" class="suggested_movie_imdb"><img src="img/IMDB.png"></img></a>
+                    </div>
+                    <hr>
+                    <div class="suggested_movie">
+                        <a href=""><img src="img/inc.png" title="Inception" class="left_img suggested_movie_img"></img></a>
+                        <a href=""><h2>Inception</h2></a>
+                        <img src="img/rate_08.png"></img>
+                        <a href=""><img src="img/IMDB.png"></img></a>
+                    </div>
+                    <hr>
+                    <div class="suggested_movie">
+                        <a href=""><img src="img/btd.png" title="The Dark Knigt" class="left_img suggested_movie_img"></img></a>
+                        <a href=""><h2>The Dark Knigt</h2></a>
+                        <img src="img/rate_09.png"></img>
+                        <a href=""><img src="img/IMDB.png"></img></a>
+                    </div>
+    <!-- 				<hr>
+                    <div class="suggested_movie">
+                        <a href="{{movie_profile}}"><img src="{{movie_img}}" title="{{movie_name}}" class="left_img suggested_movie_img"></img></a>
+                        <a href="{{movie_profile}}"><h2>{{movie_name}}<h2></a>
+                        <img src="{{rate_img}}"></img>
+                        <a href="{{imdb_link}}"><img src="img/IMDB.png"></img></a>
+                    </div> -->
+                    <hr>
+                    <h1> Suggested People </h1>
+                    <hr>
+                    <div class="suggested_people">
+                        <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
+                        <a href=""><h2>Navid Mashayekhi</h2></a>
+                        <h6>followers:0 following:0</h6>
+                    </div>
+                </aside>
+                <div id="postsWrapper">
+                    <div class="post">
+                        <h1>Interstellar</h1>
+						<a href="#comment_film"> <img src="img/rate_10.png" class="film_score"></img> </a>
+                        <a href="#x" class="overlay" id="comment_film"></a>
+                        <div class="popup"> 
+<!--                            <h2 class> Comment this film </h2> -->
+                            
+                            <div class="suggested_movie">
+                                <a href=""><img src="img/int.png" title="Interstellar" class="left_img suggested_movie_img"></img></a>
+                                <a href=""><h2>Interstellar</h2></a>
+                                <a href=""><img src="img/IMDB.png"></img></a>
+                                <br><br>
+                                <span> Rate this movie: </span>
+                                <div id="rating">
+                                    <img src="img/0.png" rate="1"></img> 
+                                    <img src="img/0.png" rate="2"></img>
+                                    <img src="img/0.png" rate="3"></img>
+                                    <img src="img/0.png" rate="4"></img>
+                                    <img src="img/0.png" rate="5"></img>
+                                    <img src="img/0.png" rate="6"></img>
+                                    <img src="img/0.png" rate="7"></img>
+                                    <img src="img/0.png" rate="8"></img>
+                                    <img src="img/0.png" rate="9"></img>
+                                    <img src="img/0.png" rate="10"></img>
+                                </div>
+                                <br>
+                                
+                            </div>
+                            
+                            <div class="popup_div">
+                                <div>
+                                    <a href=""><img src="img/user.png" class="left_img"></img></a>
+                                <p> Hesam </p>
+                                </div>
+                                <textarea placeholder="Write a comment"></textarea>  
+                            </div>
+                            <div class="popup_buttons">
+                                <a href="#close"><input type=submit value="OK"/></a>
+                                <a href="#close"><input type=submit value="Cancel"/></a>
+                            </div>
+<!--                            <a class="close" href="#close"></a>-->
+                        </div>
+                        <a href=""><img src="img/imdb.png"  class="imdb_img"></img></a>
+                        <hr>
+                        <div class="post_body">
+                            <img src="img/int.png" class="right_img"></img>
+                            <p>
+                                A team of explorers travel through a wormhole in an attempt to ensure humanity's survival.
+                            </p>
+                        </div>
+                        <hr>
+						<div>
+							
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<script src="js/jquery-2.1.3.min.js"></script>
+        <script src="js/setAsidePosition.js"></script>
+        <script src="js/setRatingImage.js"></script>
+        <script src="js/showNotif.js"></script>
+	</body>
+</html>

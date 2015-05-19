@@ -1,0 +1,138 @@
+{% extends "Template_2.html" %}
+{% load static %}
+
+{% block posts %}
+    <div id="postsWrapper">
+        <div class="post">
+            <div class="post_header">
+                <a href=""><img src="{% static "img/user.png" %}" title="Navid Mashayekhi" class="left_img"></a>
+                <p>Navid Mashayekhi</p>
+                <a href="movieProfile.html" class="post_time">12:30 18/Apr/2015</a>
+            </div>
+            <hr>
+            <div class="post_body">
+                <a href="" title="Interstellar"><img src="{% static "img/int.png" %}" class="right_img"></a>
+                <a href="movieprofile.html" class="inline_block"><h1>Interstellar</h1></a>
+                <div class="tooltip">
+                    <div class="suggested_movie box-inner">
+                        <a href=""><img src="{% static "img/int.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
+                        <a href=""><h2>Interstellar</h2></a>
+                        <p> Director: Christopher Nolan</p>
+                        <img src="{% static "img/rate_10.png" %}"><br>
+                        <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
+                    </div>
+                </div>
+
+                <img src="{% static "img/rate_10.png" %}" class="rate_img">
+                <div class="post_content">
+                    <p>
+                        A team of explorers travel through a wormhole in an attempt to ensure humanity's survival.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <img src="{% static "img/like.png" %}"> <span>12</span> <img src="{% static "img/cm2.png" %}"> <span>2</span>
+            </div>
+            <hr>
+            <div class="post_comments">
+                <div class="post_comment_div">
+                    <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img post_cm_img"></a>
+                    <p>Navid Mashayekhi</p>
+                    <p>Hi. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site </p>
+                </div>
+                <hr>
+                <div class="post_comment_div">
+                    <a href="" title="Hesam Rahnama"><img src="{% static "img/user.png" %}" class="left_img post_cm_img"></a>
+                    <p>Hesam Rahnama</p>
+                    <div class="ez">Hello. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site. Hello. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site. Hello. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site
+</div>
+                </div>
+            </div>
+            <div class="post_incm">
+                <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
+                <form>
+                    <input type="text" name="comment" value="" placeholder="Comment" class="cm_input">
+            <input type="submit" name="commit" value=" " class="cm_button">
+                </form>
+            </div>
+        </div>
+        <div class="post">
+            <div class="post_header">
+                <a href=""><img src="{% static "img/user.png" %}" title="Navid Mashayekhi" class="left_img"></a>
+                <p>Hesam Rahnama</p>
+                <a href="" class="post_time">10:20 20/Apr/2015</a>
+            </div>
+            <hr>
+            <div class="post_body">
+                <a href="" title="Interstellar"><img src="{% static "img/inc.png" %}" class="right_img"></a>
+                <a href="" class="inline_block"><h1>Inception</h1></a>
+
+
+                <div class="tooltip">
+                    <div class="suggested_movie box-inner">
+                        <a href=""><img src="{% static "img/inc.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
+                        <a href=""><h2>Inception</h2></a>
+                        <p> Director: Christopher Nolan</p>
+                        <img src="{% static "img/rate_08.png" %}"><br>
+                        <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
+                    </div>
+                </div>
+
+                <img src="{% static "img/rate_08.png" %}" class="rate_img">
+                <div class="post_content">
+                    <p>
+                        A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <img src="{% static "img/like.png" %}"> <span>12</span> <img src="{% static "img/cm2.png" %}"> <span>2</span>
+            </div>
+            <hr>
+            <div class="post_comments">
+                <div class="post_comment_div">
+                    <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img post_cm_img"></a>
+                    <p>Navid Mashayekhi</p>
+                    <p>Hi. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site </p>
+                </div>
+                <hr>
+                <div class="post_comment_div">
+                    <a href="" title="Hesam Rahnama"><img src="{% static "img/user.png" %}" class="left_img post_cm_img"></a>
+                    <p>Hesam Rahnama</p>
+                    <p>Hello. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site </p>
+                </div>
+            </div>
+            <div class="post_incm">
+                <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
+                <form>
+                    <input type="text" name="comment" value="" placeholder="Comment" class="cm_input">
+                    <input type="submit" name="commit" value=" " class="cm_button">
+                </form>
+            </div>
+        </div>
+<!-- 				<div class="post">
+            <div class="post_header">
+                <a href="{{user_profile}}"><img src="{{user_img}}" title="{{user_name}}" class="left_img"></img></a>
+                <p>{{user_name}}</p>
+                <a href="{{user_profile}}" class="{{post_time}}">{{post_time}}</a>
+            </div>
+            <hr>
+            <div class="post_body">
+                <a href="{{film_profile}}" title="{{film_name}}"><img src="{{film_img}}" class="right_img"></img></a>
+                <a href="{{film_profile}}"><h1>{{film_img}}</h1></a>
+                <div>
+
+                </div>
+                <div class="post_content">
+                    <p>{{film_review}}</p>
+                </div>
+            </div>
+            <hr>
+            <div>
+
+            </div>
+        </div> -->
+    </div>
+{% endblock %}
