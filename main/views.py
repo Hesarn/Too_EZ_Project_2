@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from users.models import Film
 from django import forms
-from users.models import MyUser
+from users.models import MyUser, Post
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -69,16 +69,40 @@ def forget(request):
     return render(request, 'forget.html', {})
 
 
-@login_required()
-def timeLine(request):
-    return render(request, 'timeline.html', {'user': MyUser.objects.get(user=request.user)})
-
-
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse('login'))
 
+
+@login_required()
+def timeLine(request):
+    followingUsers = MyUser.objects.get(user=request.user).followingUsers.all()
+    posts = Post.objects.filter(user=followingUsers).order_by('-pubDate')
+
+    return render(request, 'timeline.html', {'currUser': MyUser.objects.get(user=request.user), 'posts': posts})
+
+
 @login_required()
 def movie_profile(request, filmName):
     return render(request, 'movieProfile.html', {'film': get_object_or_404(Film, name=filmName),
-                                                 'user': get_object_or_404(MyUser, user=request.user)})
+                                                 'currUser': get_object_or_404(MyUser, user=request.user)})
+
+
+@login_required()
+def show_post(request, userID, postID):
+    return render(request, 'post.html', {'user': get_object_or_404(MyUser, id=userID),
+                                         'currUser': get_object_or_404(MyUser, user=request.user),
+                                         'post': get_object_or_404(Post, id=postID)})
+
+
+@login_required()
+def show_user_profile(request):
+    return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, user=request.user),
+                                                'currUser': get_object_or_404(MyUser, user=request.user),
+                                                'isThisUser': True})
+
+@login_required()
+def show_other_profiles(request, userID):
+    return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
+                                                'currUser': get_object_or_404(MyUser, user=request.user),
+                                                'isThisUser': False})

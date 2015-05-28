@@ -4,25 +4,36 @@
 {% block extendedHeader %}
     <a href="{% url 'logout' %}"><img src="{% static "img/exit.png" %}" class="right_img header_img"></a>
     <a href=""><img src="{% static "img/setting.png" %}" class="right_img header_img"></a>
-    <a href="userprofile.html"><img src="{% static "img/user.png" %}" class="right_img header_img"></a>
+    <a href="{% url 'showProfile' %}"><img src="{% static "img/user.png" %}" class="right_img header_img"></a>
     <a href=""><img id="notif_pic" src="{% static "img/notif.png" %}" class="right_img header_img"></a>
 
     <div id='notif' style="display: none;">
-        <div class="suggested_people">
-            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
-            <p>
-                <a href="userprofile.html">Navid Mashayekhi</a>
-                Liked your <a href="post.html">post</a>
-            </p>
-        </div>
-        <hr>
-        <div class="suggested_people">
-            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
-            <p>
-                <a href="userprofile.html">Navid Mashayekhi</a>
-                commented on your <a href="post.html">post</a>
-           </p>
-        </div>
+        {% for notif in currUser.second.all reversed %}
+            {% if forloop.counter < 5 %}
+                <div class="suggested_people">
+                    <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture }}" class="left_img"></a>
+                    <p>
+                        <a href="userprofile.html"> {{ notif.firstUser }} </a>
+                        {% if notif.notificationState == 1 %}
+                            liked your <a href="post.html">post</a>.
+                        {% endif %}
+
+                        {% if notif.notificationState == 2 %}
+                            commented on your <a href="post.html">post</a>.
+                        {% endif %}
+
+                        {% if notif.notificationState == 3 %}
+                            is following you now.
+                        {% endif %}
+
+                        {% if notif.notificationState == 4 %}
+                            commented on the <a href="post.html">post</a> that you commented before.
+                        {% endif %}
+                    </p>
+                </div>
+                <hr>
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock %}
 
@@ -64,4 +75,13 @@
     <div id="postsWrapper">
         {% block posts %} {% endblock %}
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/jquery-2.1.3.min.js" %}"></script>
+    <script src="{% static "js/setAsidePosition.js" %}"></script>
+    <script src="{% static "js/addCommentToPosts.js" %}"></script>
+    <script src="{% static "js/showNotif.js" %}"></script>
+    <script src="{% static "js/showTooltip.js" %}"></script>
+    <script src="{% static "js/search.js" %}"></script>
 {% endblock %}

@@ -1,149 +1,71 @@
-<!DOCTYPE html>
-<html>
-    <head>
-		<meta charset="UTF-8">
-		<title>User Profile</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-	</head>
-	<body>
-        <div id="wrapper">
-            <header>
-                <a href="timeline.html"><img src="img/logo-small.png" class="header_img"></img></a>
-                <form>
-                   	<select name="search_kind">
-                    	<option value="01">All</option>
-                        <option value="02">Film</option>
-                        <option value="03">People</option>
-                    </select>
-                	<input type="text" name="login" value="" placeholder="Username or Email" class="header_input">
-                    <input type="submit" name="commit" value=" " class="header_button">
-                </form>
-				<a href=""><img src="img/exit.png" class="right_img header_img"></img></a>
-                <a href=""><img src="img/setting.png" class="right_img header_img"></img></a>
-				<a href="userprofile.html"><img src="img/user.png" class="right_img header_img"></img></a>
-				<a href=""><img id="notif_pic" src="img/notif.png" class="right_img header_img"></img></a>
-				
-				<div id='notif' style="display: none;">
-					<div class="suggested_people">
-						<a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
-					<p>
-						<a href="userprofile.html">Navid Mashayekhi</a>
-						Liked your <a href="post.html">post</a>
-					</p>
-					</div>
-					<hr>
-					<div class="suggested_people">
-						<a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
-					<p>
-						<a href="userprofile.html">Navid Mashayekhi</a>
-						commented on your <a href="post.html">post</a>
-					</p>
-                </div>
-            </div>
-            </header>
-            <div id="extraDiv"></div>
-            <div>		
-                <aside>
-                    <h1> Suggested Movies </h1>
-                    <hr>
-                    <div class="suggested_movie">
-                        <a href=""><img src="img/int.png" title="Interstellar" class="left_img suggested_movie_img"></img></a>
-                        <a href=""><h2>Interstellar</h2></a>
-                        <img src="img/rate_10.png"></img>
-                        <a href="" class="suggested_movie_imdb"><img src="img/IMDB.png"></img></a>
-                    </div>
-                    <hr>
-                    <div class="suggested_movie">
-                        <a href=""><img src="img/inc.png" title="Inception" class="left_img suggested_movie_img"></img></a>
-                        <a href=""><h2>Inception</h2></a>
-                        <img src="img/rate_08.png"></img>
-                        <a href=""><img src="img/IMDB.png"></img></a>
-                    </div>
-                    <hr>
-                    <div class="suggested_movie">
-                        <a href=""><img src="img/btd.png" title="The Dark Knigt" class="left_img suggested_movie_img"></img></a>
-                        <a href=""><h2>The Dark Knigt</h2></a>
-                        <img src="img/rate_09.png"></img>
-                        <a href=""><img src="img/IMDB.png"></img></a>
-                    </div>
-    <!-- 				<hr>
-                    <div class="suggested_movie">
-                        <a href="{{movie_profile}}"><img src="{{movie_img}}" title="{{movie_name}}" class="left_img suggested_movie_img"></img></a>
-                        <a href="{{movie_profile}}"><h2>{{movie_name}}<h2></a>
-                        <img src="{{rate_img}}"></img>
-                        <a href="{{imdb_link}}"><img src="img/IMDB.png"></img></a>
-                    </div> -->
-                    <hr>
-                    <h1> Suggested People </h1>
-                    <hr>
-                    <div class="suggested_people">
-                        <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
-                        <a href=""><h2>Navid Mashayekhi</h2></a>
-                        <h6>followers:0 following:0</h6>
-                    </div>
-                </aside>
-                <div id="postsWrapper">
-                    <div class="post">
-                        <div class="post_header">
-                            <a href=""><img src="img/user.png" title="Navid Mashayekhi" class="left_img"></img></a>
-                            <p>Navid Mashayekhi</p>
-                            <h5>following:0</h5> <h5>followers:0</h5>
-                        </div>
-                    </div>
-                    <div class="post_in_profile">
-                        <div class="post_header">
-                            <a href=""><img src="img/user.png" title="Navid Mashayekhi" class="left_img"></img></a>
-                            <p>Navid Mashayekhi</p>
-                            <a href="" class="post_time">12:30 18/Apr/2015</a>
-                        </div>
-                        <hr>
-                        <div class="post_body">
-                            <a href="" title="Interstellar"><img src="img/int.png" class="right_img"></img></a>
-                            <a href="" class="inline_block"><h1>Interstellar</h1></a>
-                            <img src="img/rate_10.png" class="rate_img"></img>
-                            <div class="post_content">
-                                <p>
-                                        A team of explorers travel through a wormhole in an attempt to ensure humanity's survival.
-                                </p>
-                            </div>
-                        </div>
-                        <hr>
-						<div>
-							<img src="img/like.png"></img> <span>12</span> <img src="img/cm2.png"></img> <span>2</span>
-						</div>
-						<hr>
-                        <div class="post_comments">
-                            <div class="post_comment_div">
-                                <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img post_cm_img"></img></a>
-                                <p>Navid Mashayekhi</p>
-                                <p>
-                                    Hi. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site
-                                </p>
-                            </div>
-                            <hr>
-                            <div class="post_comment_div">
-                                <a href="" title="Hesam Rahnama"><img src="img/user.png" class="left_img post_cm_img"></img></a>
-                                <p>Hesam Rahnama</p>
-                                <p>
-                                    Hello. This is my comment on this post. i want to see this as an opportunity to tell you that i love this site
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post_incm">
-                            <a href="" title="Navid Mashayekhi"><img src="img/user.png" class="left_img"></img></a>
-                                <form>
-                                <input type="text" name="comment" value="" placeholder="Comment" class="cm_input">
-                        <input type="submit" name="commit" value=" " class="cm_button">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<footer> &copy 2015 </footer>
+{% extends 'Header_Aside_Template.html' %}
+{% load static %}
+
+{% block posts %}
+    <div class="post">
+        <div class="post_header">
+            <a href="{% url 'showProfile' %}/{{ user.id }}"><img src="{{ user.profilePicture }}" title="{{ user.user.username }}" class="left_img"></a>
+            <p>
+                <a href="{% url 'showProfile' %}/{{ user.id }}"> {{ user.user.username }} </a>
+
+                {% if not isThisUser %}
+                    <input type="submit" name="commit" value="follow/unfollow" class="ff_button">
+                {% endif %}
+
+            </p>
+            <h5> <a href=""> following: {{ user.followerUsers.all|length }} </a> </h5>
+            <h5> <a href=""> followers: {{ user.followerUsers.all|length }} </a> </h5>
         </div>
-        <script src="js/jquery-2.1.3.min.js"></script>
-        <script src="js/setAsidePosition.js"></script>
-		<script src="js/addCommentToPosts.js"></script>
-        <script src="js/showNotif.js"></script>
-	</body>
-</html>
+    </div>
+
+    {% for post in user.post_set.all reversed%}
+        <div class="post_in_profile">
+            <div class="post_header">
+                <a href="{% url 'showProfile' %}/{{ user.id }}"><img src="{{ user.profilePicture }}" title="{{ user.user.username }}" class="left_img"></a>
+                <p> <a href="{% url 'showProfile' %}/{{ user.id }}"> {{ user.user.username }} </a> </p>
+                <a href="{% url 'showPost' %}/{{ post.user.id }}/{{ post.id }}" class="post_time"> {{ post.pubDate }} </a>
+            </div>
+            <hr>
+            <div class="post_body">
+                <a href="" title="{{ post.film.name }}"><img src="{{ post.film.picture.url }}" class="right_img"></a>
+                <a href="" class="inline_block"><h1> {{ post.film.name }} </h1></a>
+                <img src="{% static 'img/rate_10.png' %}" class="rate_img">
+                <div class="post_content">
+                    <p>
+                        {{ post.body }}
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <img src="{% static 'img/like.png' %}">
+                <span> {{ post.likeUsers.all|length }} </span>
+                <img src="{% static 'img/cm2.png' %}">
+                <span> {{ post.comment_set.all|length }} </span>
+            </div>
+            <hr>
+
+
+            <div class="post_comments">
+                {% for cm in post.comment_set.all %}
+                    <div class="post_comment_div">
+                        <a href="" title="{{ cm.user.user.username }}"><img src="{{ cm.user.profilePicture }}" class="left_img post_cm_img"></a>
+                        <p> {{ cm.user.user.username }} </p>
+                        <p>
+                            {{ cm.body }}
+                        </p>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+
+            <div class="post_incm">
+                <a href="" title="{{ user.user.username }}"><img src="{{ user.profilePicture }}" class="left_img"></a>
+                    <form>
+                        <input type="text" name="comment" value="" placeholder="Comment" class="cm_input">
+                        <input type="submit" name="commit" value=" " class="cm_button">
+                    </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

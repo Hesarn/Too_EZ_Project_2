@@ -56,4 +56,11 @@ class Comment(models.Model):
         return self.user.user.first_name + ' commented on ' + self.post.user.user.username + "'s post"
 
 
+class Notification(models.Model):
+    firstUser = models.ForeignKey(MyUser, related_name='first')
+    secondUser = models.ForeignKey(MyUser, related_name='second')
+    notificationPost = models.ForeignKey(Post, blank=True, null=True)
+    notificationState = models.IntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return self.firstUser.user.username + ' to ' + self.secondUser.user.username

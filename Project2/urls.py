@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^logout/$', 'main.views.logout_user', name="logout"),
     url(r'^movieProfile$', 'main.views.movie_profile', name="movieProfile"),
     url(r'^movieProfile/(\w+)$', 'main.views.movie_profile'),
+    url(r'^post$', 'main.views.show_post', name='showPost'),
+    url(r'^post/(\d+)/(\d+)$', 'main.views.show_post'),
+    url(r'^profile$', 'main.views.show_user_profile', name='showProfile'),
+    url(r'^profile/(\d+)$', 'main.views.show_other_profiles'),
 ]
