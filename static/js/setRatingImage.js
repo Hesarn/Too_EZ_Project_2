@@ -1,5 +1,5 @@
 $('.film_score').bind('click', function(){
-    $('#rating > img').attr('src' , 'img/0.png');
+    $('#rating > img').attr('src' , '/static/img/0.png');
     $('.popup_div textarea').val('');
 });
 
@@ -9,13 +9,13 @@ $('div#rating img').hover(function() {
 
     for(var i=1 ; i<=rate ; i++)
     {
-        tmp.attr('src' , 'img/1.png'); 
+        tmp.attr('src' , '/static/img/1.png');
         tmp=tmp.next();
     }
     
     for(var j=rate+1 ; j<=10 ; j++)
     {
-        tmp.attr('src' , 'img/0.png'); 
+        tmp.attr('src' , '/static/img/0.png');
         tmp=tmp.next();
     }
 });
@@ -28,13 +28,13 @@ $('div#rating').mouseleave(function() {
     {      
         for(var i=1 ; i<=rate ; i++)
         {
-            tmp.attr('src' , 'img/1.png'); 
+            tmp.attr('src' , '/static/img/1.png');
             tmp=tmp.next();
         }
 
         for(var j=rate+1 ; j<=10 ; j++)
         {
-            tmp.attr('src' , 'img/0.png'); 
+            tmp.attr('src' , '/static/img/0.png');
             tmp=tmp.next();
         }
     }
@@ -43,7 +43,7 @@ $('div#rating').mouseleave(function() {
     {
         for(var i=1 ; i<=10 ; i++)
         {
-            tmp.attr('src' , 'img/0.png'); 
+            tmp.attr('src' , '/static/img/0.png');
             tmp=tmp.next();
         }
     }

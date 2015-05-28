@@ -400,10 +400,11 @@ a:hover {
     height: inherit;
 	border-left: 1px solid rgba(12, 101, 165, 0.6);
     border-radius: 0px;
+    padding: 0 5px;
 }
 
-#DayOfBirth {
-    padding: 0px 14px;
+#BirthdayDiv #DayOfBirth {
+    padding: 0px 10px;
 }
 
 #signup_button {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %} {% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" />
+        {% block extraCSS %} {% endblock %}
+	</head>
+	<body>
+		<div id="wrapper">
+			<header>
+				<a href="{% url 'timeLine' %}"><img src="{% static "img/logo-small.png" %}" class="header_img"></a>
+					<form>
+						<select name="Day">
+							<option value="01">All</option>
+							<option value="02">Film</option>
+							<option value="03">People</option>
+						</select>
+						<input type="text" name="login" value="" placeholder="Username or Email" class="header_input">
+						<input type="submit" name="commit" value=" " class="header_button">
+					</form>
+
+                    {% block extendedHeader %} {% endblock %}
+			</header>
+
+			<div id="extraDiv"></div>
+
+            <div>
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+			<footer> &copy 2015 </footer>
+		</div>
+	</body>
+
+    {% block scripts %} {% endblock %}
+</html>

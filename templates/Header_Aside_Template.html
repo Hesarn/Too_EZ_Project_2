@@ -1,0 +1,67 @@
+{% extends 'Base_Template.html' %}
+{% load static %}
+
+{% block extendedHeader %}
+    <a href="{% url 'logout' %}"><img src="{% static "img/exit.png" %}" class="right_img header_img"></a>
+    <a href=""><img src="{% static "img/setting.png" %}" class="right_img header_img"></a>
+    <a href="userprofile.html"><img src="{% static "img/user.png" %}" class="right_img header_img"></a>
+    <a href=""><img id="notif_pic" src="{% static "img/notif.png" %}" class="right_img header_img"></a>
+
+    <div id='notif' style="display: none;">
+        <div class="suggested_people">
+            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
+            <p>
+                <a href="userprofile.html">Navid Mashayekhi</a>
+                Liked your <a href="post.html">post</a>
+            </p>
+        </div>
+        <hr>
+        <div class="suggested_people">
+            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
+            <p>
+                <a href="userprofile.html">Navid Mashayekhi</a>
+                commented on your <a href="post.html">post</a>
+           </p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <aside>
+        <h1> Suggested Movies </h1>
+        <hr>
+        <div class="suggested_movie">
+            <a href=""><img src="{% static "img/int.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
+            <a href=""><h2>Interstellar</h2></a>
+            <img src="{% static "img/rate_10.png" %}">
+            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
+        </div>
+        <hr>
+        <div class="suggested_movie">
+            <a href=""><img src="{% static "img/inc.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
+            <a href=""><h2>Interstellar</h2></a>
+            <img src="{% static "img/rate_10.png" %}">
+            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
+        </div>
+        <hr>
+        <div class="suggested_movie">
+            <a href=""><img src="{% static "img/btd.png" %}" title="The Dark Knigt" class="left_img suggested_movie_img"></a>
+            <a href=""><h2>The Dark Knigt</h2></a>
+            <img src="{% static "img/rate_09.png" %}">
+            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
+        </div>
+        <hr>
+        <h1> Suggested People </h1>
+        <hr>
+        <div class="suggested_people">
+            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
+            <a href=""><h2>Navid Mashayekhi</h2></a>
+            <h6>followers:0 following:0</h6>
+        </div>
+    </aside>
+
+    <div id="postsWrapper">
+        {% block posts %} {% endblock %}
+    </div>
+{% endblock %}
