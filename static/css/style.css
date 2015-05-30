@@ -161,6 +161,10 @@ div span {
 .cm_button {
 	height: 40px;
 	width: 60px;
+    position: relative;
+    bottom: 15px;
+    left: 10px;
+    cursor: pointer;
 	background-color: #fcfcfc;
 	background-image: url("../img/cm.png");
 	background-repeat: no-repeat;

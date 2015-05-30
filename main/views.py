@@ -1,13 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from users.forms import loginForm, signupForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from users.models import Film
 from django import forms
-from users.models import MyUser, Post
+from users.models import MyUser, Post, Comment
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+import json
+from django.template import Context, Template
+
+from django.core.serializers.json import DjangoJSONEncoder
+
 # Create your views here.
 
 # YEARS = ['Year'] + list(range(2015, 1940, -1))
@@ -77,7 +84,7 @@ def logout_user(request):
 @login_required()
 def timeLine(request):
     followingUsers = MyUser.objects.get(user=request.user).followingUsers.all()
-    posts = Post.objects.filter(user=followingUsers).order_by('-pubDate')
+    posts = Post.objects.filter(user=followingUsers).order_by('-pubDate')[:1]
 
     return render(request, 'timeline.html', {'currUser': MyUser.objects.get(user=request.user), 'posts': posts})
 
@@ -103,6 +110,42 @@ def show_user_profile(request):
 
 @login_required()
 def show_other_profiles(request, userID):
-    return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
+    if get_object_or_404(MyUser, user=request.user) == get_object_or_404(MyUser, id=userID):
+        return show_user_profile(request)
+
+    else:
+        return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
                                                 'currUser': get_object_or_404(MyUser, user=request.user),
                                                 'isThisUser': False})
+
+@csrf_exempt
+@login_required()
+def ajax_get_post(request, postNumber):
+    if request.is_ajax():
+        followingUsers = MyUser.objects.get(user=request.user).followingUsers.all()
+        posts = Post.objects.filter(user=followingUsers).order_by('-pubDate')[int(postNumber)+1: int(postNumber)+2]
+
+        tmp = serializers.serialize('json', list(posts), use_natural_foreign_keys=True, use_natural_primary_keys=True)
+        return HttpResponse(tmp)
+
+@csrf_exempt
+@login_required()
+def ajax_get_comments(request, postID):
+    if request.is_ajax():
+        tmp = serializers.serialize('json', list(Post.objects.get(id=postID).comment_set.all().order_by('-id')),
+                                    use_natural_foreign_keys=True, use_natural_primary_keys=True)
+        return HttpResponse(tmp)
+
+
+@csrf_exempt
+def ajax_comment_on_post(request, postID):
+    if request.is_ajax():
+        post = get_object_or_404(Post, id=postID)
+        comment = Comment()
+        comment.user = get_object_or_404(MyUser, user=request.user)
+        comment.post = post
+        comment.body = json.loads(request.read().decode('utf-8'))['comment']
+        comment.save()
+
+        return HttpResponse(serializers.serialize('json', [comment],
+                                                  use_natural_foreign_keys=True, use_natural_primary_keys=True))

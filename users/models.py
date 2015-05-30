@@ -11,7 +11,10 @@ class MyUser(models.Model):
     profilePicture = models.ImageField(default=(STATIC_URL + 'img/user.png'))
 
     def __str__(self):
-        return self.user.first_name
+        return self.user.username
+
+    def natural_key(self):
+        return self.id, self.user.username, self.profilePicture.url
 
 
 class Film(models.Model):
@@ -24,6 +27,9 @@ class Film(models.Model):
 
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return self.name, self.picture.url
 
 
 class Cast(models.Model):
@@ -53,7 +59,7 @@ class Comment(models.Model):
     body = models.TextField()
 
     def __str__(self):
-        return self.user.user.first_name + ' commented on ' + self.post.user.user.username + "'s post"
+        return self.user.user.username + ' commented on ' + self.post.user.user.username + "'s post"
 
 
 class Notification(models.Model):

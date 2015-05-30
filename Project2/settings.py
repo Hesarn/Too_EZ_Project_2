@@ -115,3 +115,4 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_URL = 'login'
+
