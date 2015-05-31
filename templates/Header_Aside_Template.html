@@ -11,7 +11,7 @@
         {% for notif in currUser.second.all reversed %}
             {% if forloop.counter < 5 %}
                 <div class="suggested_people">
-                    <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture }}" class="left_img"></a>
+                    <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture.url }}" class="left_img"></a>
                     <p>
                         <a href="userprofile.html"> {{ notif.firstUser }} </a>
                         {% if notif.notificationState == 1 %}
@@ -73,6 +73,18 @@
     </aside>
 
     <div id="postsWrapper">
-        {% block posts %} {% endblock %}
+        {% block userHeaderProfile %} {% endblock %}
+        {% block posts %}{% endblock %}
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/jquery-2.1.3.min.js" %}"></script>
+    <script src="{% static "js/setAsidePosition.js" %}"></script>
+    <script src="{% static "js/addCommentToPosts.js" %}"></script>
+    <script src="{% static "js/showNotif.js" %}"></script>
+    <script src="{% static "js/showTooltip.js" %}"></script>
+    <script src="{% static "js/search.js" %}"></script>
+    <script src="{% static "js/likePost.js" %}"></script>
+    {% block extraScripts %} {% endblock %}
 {% endblock %}

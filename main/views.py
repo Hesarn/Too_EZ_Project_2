@@ -99,13 +99,15 @@ def movie_profile(request, filmName):
 def show_post(request, userID, postID):
     return render(request, 'post.html', {'user': get_object_or_404(MyUser, id=userID),
                                          'currUser': get_object_or_404(MyUser, user=request.user),
-                                         'post': get_object_or_404(Post, id=postID)})
+                                         'posts': Post.objects.filter(id=postID)})
 
 
 @login_required()
 def show_user_profile(request):
-    return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, user=request.user),
+    reqUser = get_object_or_404(MyUser, user=request.user)
+    return render(request, 'userProfile.html', {'user': reqUser,
                                                 'currUser': get_object_or_404(MyUser, user=request.user),
+                                                'posts': Post.objects.filter(user=reqUser),
                                                 'isThisUser': True})
 
 @login_required()
@@ -114,27 +116,22 @@ def show_other_profiles(request, userID):
         return show_user_profile(request)
 
     else:
+        reqUser = get_object_or_404(MyUser, id=userID)
         return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
-                                                'currUser': get_object_or_404(MyUser, user=request.user),
-                                                'isThisUser': False})
+                                                    'currUser': get_object_or_404(MyUser, user=request.user),
+                                                    'posts': Post.objects.filter(user=reqUser),
+                                                    'isThisUser': False})
 
 @csrf_exempt
 @login_required()
 def ajax_get_post(request, postNumber):
     if request.is_ajax():
         followingUsers = MyUser.objects.get(user=request.user).followingUsers.all()
-        posts = Post.objects.filter(user=followingUsers).order_by('-pubDate')[int(postNumber)+1: int(postNumber)+2]
+        post = Post.objects.filter(user=followingUsers).order_by('-pubDate')[int(postNumber)]
 
-        tmp = serializers.serialize('json', list(posts), use_natural_foreign_keys=True, use_natural_primary_keys=True)
-        return HttpResponse(tmp)
-
-@csrf_exempt
-@login_required()
-def ajax_get_comments(request, postID):
-    if request.is_ajax():
-        tmp = serializers.serialize('json', list(Post.objects.get(id=postID).comment_set.all().order_by('-id')),
-                                    use_natural_foreign_keys=True, use_natural_primary_keys=True)
-        return HttpResponse(tmp)
+        return HttpResponse(render(request, 'post_AJAX.html', {'user': post.user,
+                                                               'currUser': get_object_or_404(MyUser, user=request.user),
+                                                               'post': post}))
 
 
 @csrf_exempt
@@ -147,5 +144,17 @@ def ajax_comment_on_post(request, postID):
         comment.body = json.loads(request.read().decode('utf-8'))['comment']
         comment.save()
 
-        return HttpResponse(serializers.serialize('json', [comment],
-                                                  use_natural_foreign_keys=True, use_natural_primary_keys=True))
+        return render(request, 'comment_AJAX.html', {'cm': comment})
+
+@csrf_exempt
+def ajax_like_post(request, postID):
+    if request.is_ajax():
+        post = get_object_or_404(Post, id=postID)
+        currUser = get_object_or_404(MyUser, user=request.user)
+
+        if post.likeUsers.filter(user=currUser.user).count() == 0:
+            post.likeUsers.add(currUser)
+            return HttpResponse('Post successfully Liked !')
+        else:
+            post.likeUsers.remove(currUser)
+            return HttpResponse('unliked !')

@@ -147,7 +147,7 @@ div span {
 	display: inline-block;
 	position: relative;
 	top: -8px;
-	margin-right: 50px;
+	margin-right: 80px;
 	margin-left: 5px;
 /* 	margin-top: 12px;
 	margin-bottom: 12px; */
@@ -502,4 +502,25 @@ footer {
 .errorlist.nonfield
 {
     font-size: 14px;
+}
+
+.profile_img
+{
+    height: 60px;
+}
+
+.likedPost
+{
+    font-weight: bold;
+    color: blue;
+}
+
+.like_comment
+{
+    font-weight: bold;
+}
+
+.likeCommentDiv img
+{
+    margin-left: 10px;
 }

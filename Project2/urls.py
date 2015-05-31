@@ -24,7 +24,8 @@ urlpatterns = [
     url(r'^profile$', 'main.views.show_user_profile', name='showProfile'),
     url(r'^profile/(\d+)$', 'main.views.show_other_profiles'),
     url(r'^ajax/(\d+)$', 'main.views.ajax_get_post'),
-    url(r'^ajax/comments/(\d+)$', 'main.views.ajax_get_comments'),
     url(r'^ajax/commentOnPost$', 'main.views.ajax_comment_on_post', name='comment'),
     url(r'^ajax/commentOnPost/(\d+)$', 'main.views.ajax_comment_on_post'),
+    url(r'^ajax/LikePost$', 'main.views.ajax_like_post', name='likePost'),
+    url(r'^ajax/LikePost/(\d+)$', 'main.views.ajax_like_post'),
 ]
