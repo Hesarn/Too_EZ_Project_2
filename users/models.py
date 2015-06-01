@@ -6,8 +6,8 @@ from Project2.settings import STATIC_URL
 class MyUser(models.Model):
     user = models.OneToOneField(User)
     birthday = models.CharField(max_length=10, default='-1')
-    followingUsers = models.ManyToManyField('self', blank=True)
-    followerUsers = models.ManyToManyField('self', blank=True)
+    followingUsers = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
+    followerUsers = models.ManyToManyField('self', blank=True, symmetrical=False)
     profilePicture = models.ImageField(default=(STATIC_URL + 'img/user.png'))
 
     def __str__(self):
@@ -65,7 +65,7 @@ class Comment(models.Model):
 class Notification(models.Model):
     firstUser = models.ForeignKey(MyUser, related_name='first')
     secondUser = models.ForeignKey(MyUser, related_name='second')
-    notificationPost = models.ForeignKey(Post, blank=True, null=True)
+    post = models.ForeignKey(Post, blank=True, null=True)
     notificationState = models.IntegerField(null=True, blank=True)
 
     def __str__(self):

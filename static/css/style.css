@@ -95,12 +95,6 @@ aside {
     display: inline-block;
     margin: 0 10px 0 0;
 }
-    
-.ff_button {
-    font-family: cursive;
-    font-size: 12px;
-    font-weight: bold;
-}
 
 .post_body {
 	min-height: 340px;
@@ -174,10 +168,13 @@ div span {
 
 .ff_button {
 	height: 40px;
-	width: auto;
+	width: 100px;
 	background-color: #c5c5c5;
 	border: none;
 	float: right;
+    font-family: cursive;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .suggested_movie {
@@ -523,4 +520,29 @@ footer {
 .likeCommentDiv img
 {
     margin-left: 10px;
+}
+
+.ff_button.follow
+{
+    background-color: lightgreen;
+}
+
+.ff_button.unfollow
+{
+    background-color: lightsalmon;
+}
+
+.ezClass
+{
+    color: #3984ff;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.ezClass span
+{
+    display: inline-block;
+	position: static;
+	margin-right: 5px;
+	margin-left: 3px;
 }

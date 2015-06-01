@@ -28,4 +28,8 @@ urlpatterns = [
     url(r'^ajax/commentOnPost/(\d+)$', 'main.views.ajax_comment_on_post'),
     url(r'^ajax/LikePost$', 'main.views.ajax_like_post', name='likePost'),
     url(r'^ajax/LikePost/(\d+)$', 'main.views.ajax_like_post'),
+    url(r'^users$', 'main.views.show_users', name='showUsers'),
+    url(r'^users/(\w+)/(\d+)$', 'main.views.show_users'),
+    url(r'^ajax/follow_unfollow$', 'main.views.follow_action', name='followUnfollow'),
+    url(r'^ajax/follow_unfollow/(\d+)$', 'main.views.follow_action'),
 ]

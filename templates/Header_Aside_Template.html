@@ -9,17 +9,26 @@
 
     <div id='notif' style="display: none;">
         {% for notif in currUser.second.all reversed %}
-            {% if forloop.counter < 5 %}
+            {% if forloop.counter <= 5 %}
                 <div class="suggested_people">
                     <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture.url }}" class="left_img"></a>
                     <p>
-                        <a href="userprofile.html"> {{ notif.firstUser }} </a>
+                        <a href="{% url 'showProfile' %}/{{ notif.firstUser.id }}">
+                            {{ notif.firstUser.user.username }}
+                        </a>
+
                         {% if notif.notificationState == 1 %}
-                            liked your <a href="post.html">post</a>.
+                            liked your
+                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                                post
+                            </a>.
                         {% endif %}
 
                         {% if notif.notificationState == 2 %}
-                            commented on your <a href="post.html">post</a>.
+                            commented on your
+                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                                post
+                            </a>.
                         {% endif %}
 
                         {% if notif.notificationState == 3 %}
@@ -27,7 +36,11 @@
                         {% endif %}
 
                         {% if notif.notificationState == 4 %}
-                            commented on the <a href="post.html">post</a> that you commented before.
+                            commented on the
+                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                                post
+                            </a>
+                            that you commented before.
                         {% endif %}
                     </p>
                 </div>

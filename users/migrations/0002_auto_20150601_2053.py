@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0013_auto_20150527_2151'),
+        ('users', '0001_initial'),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='film',
-            old_name='filmLink',
-            new_name='profileLink',
+            model_name='notification',
+            old_name='notificationPost',
+            new_name='post',
         ),
     ]

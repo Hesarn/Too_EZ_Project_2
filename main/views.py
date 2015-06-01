@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from users.models import Film
 from django import forms
-from users.models import MyUser, Post, Comment
+from users.models import MyUser, Post, Comment, Notification
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -119,8 +119,7 @@ def show_other_profiles(request, userID):
         reqUser = get_object_or_404(MyUser, id=userID)
         return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
                                                     'currUser': get_object_or_404(MyUser, user=request.user),
-                                                    'posts': Post.objects.filter(user=reqUser),
-                                                    'isThisUser': False})
+                                                    'posts': Post.objects.filter(user=reqUser)})
 
 @csrf_exempt
 @login_required()
@@ -136,13 +135,26 @@ def ajax_get_post(request, postNumber):
 
 @csrf_exempt
 def ajax_comment_on_post(request, postID):
+    post = get_object_or_404(Post, id=postID)
+
     if request.is_ajax():
-        post = get_object_or_404(Post, id=postID)
+        tmpUsers = set()
+
+        for cm in post.comment_set.all():
+            tmpUsers.add(cm.user)
+
+        for user in tmpUsers:
+            if user != get_object_or_404(Post, id=postID).user and user.user != request.user:
+                addNotification(request, user, postID, 4, True)
+
         comment = Comment()
         comment.user = get_object_or_404(MyUser, user=request.user)
         comment.post = post
         comment.body = json.loads(request.read().decode('utf-8'))['comment']
         comment.save()
+
+        if request.user != get_object_or_404(Post, id=postID).user.user:
+            addNotification(request, get_object_or_404(Post, id=postID).user, postID, 2, True)
 
         return render(request, 'comment_AJAX.html', {'cm': comment})
 
@@ -153,8 +165,68 @@ def ajax_like_post(request, postID):
         currUser = get_object_or_404(MyUser, user=request.user)
 
         if post.likeUsers.filter(user=currUser.user).count() == 0:
+            if currUser != post.user:
+                addNotification(request, get_object_or_404(Post, id=postID).user, postID, 1, True)
             post.likeUsers.add(currUser)
             return HttpResponse('Post successfully Liked !')
+
         else:
+            addNotification(request, get_object_or_404(Post, id=postID).user, postID, 1, False)
             post.likeUsers.remove(currUser)
             return HttpResponse('unliked !')
+
+def show_users(request, follow, userID):
+    if follow == 'following':
+        return render(request, 'person.html', {'users': get_object_or_404(MyUser, id=userID).followingUsers.all(),
+                                               'currUser': get_object_or_404(MyUser, user=request.user)})
+
+    elif follow == 'follower':
+        return render(request, 'person.html', {'users': get_object_or_404(MyUser, id=userID).followerUsers.all(),
+                                               'currUser': get_object_or_404(MyUser, user=request.user)})
+
+@csrf_exempt
+def follow_action(request, userID):
+    currUser = get_object_or_404(MyUser, user=request.user)
+    tmpUser = get_object_or_404(MyUser, id=userID)
+
+    if tmpUser not in currUser.followingUsers.all():
+        addNotification(request, tmpUser, None, 3, True)
+        currUser.followingUsers.add(tmpUser)
+        tmpUser.followerUsers.add(currUser)
+
+        return HttpResponse('successfully follow user')
+
+    else:
+        addNotification(request, tmpUser, None, 3, False)
+        currUser.followingUsers.remove(tmpUser)
+        tmpUser.followerUsers.remove(currUser)
+
+        return HttpResponse('successfully unfollow user')
+
+
+def addNotification(request, secondUser, postID, notificationState, isAdd):
+    post = None
+
+    try:
+        post = get_object_or_404(Post, id=postID)
+    except:
+        pass
+
+    currUser = get_object_or_404(MyUser, user=request.user)
+    tmpUser = secondUser
+
+    notification = Notification()
+    notification.firstUser = currUser
+    notification.secondUser = tmpUser
+    notification.post = post
+    notification.notificationState = notificationState
+
+    if isAdd:
+        currUser.first.add(notification)
+        tmpUser.second.add(notification)
+
+    else:
+        Notification.objects.filter(firstUser=notification.firstUser).filter(secondUser=notification.secondUser) \
+                                        .filter(post=notification.post) \
+                                        .filter(notificationState=notification.notificationState).delete()
+
