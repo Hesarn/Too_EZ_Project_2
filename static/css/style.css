@@ -461,7 +461,7 @@ a:hover {
     width: 300px;
     background-color: #d8d8d8;
     border-top: 2px solid black;
-    font-size: 14px;
+    font-size: 13px;
     font-family: cursive;
 }
 
@@ -545,4 +545,18 @@ footer {
 	position: static;
 	margin-right: 5px;
 	margin-left: 3px;
+}
+
+header form
+{
+    position: relative;
+}
+
+#searchResult
+{
+    position: absolute;
+    left: 70px;
+    right: 55px;
+    background-color: #d8d8d8;
+
 }

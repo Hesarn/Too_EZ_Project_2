@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^users/(\w+)/(\d+)$', 'main.views.show_users'),
     url(r'^ajax/follow_unfollow$', 'main.views.follow_action', name='followUnfollow'),
     url(r'^ajax/follow_unfollow/(\d+)$', 'main.views.follow_action'),
+    url(r'^search/$', 'main.views.search', name='search'),
+    url(r'^search/(\w+)$', 'main.views.search'),
 ]

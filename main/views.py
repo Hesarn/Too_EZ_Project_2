@@ -186,22 +186,23 @@ def show_users(request, follow, userID):
 
 @csrf_exempt
 def follow_action(request, userID):
-    currUser = get_object_or_404(MyUser, user=request.user)
-    tmpUser = get_object_or_404(MyUser, id=userID)
+    if request.is_ajax():
+        currUser = get_object_or_404(MyUser, user=request.user)
+        tmpUser = get_object_or_404(MyUser, id=userID)
 
-    if tmpUser not in currUser.followingUsers.all():
-        addNotification(request, tmpUser, None, 3, True)
-        currUser.followingUsers.add(tmpUser)
-        tmpUser.followerUsers.add(currUser)
+        if tmpUser not in currUser.followingUsers.all():
+            addNotification(request, tmpUser, None, 3, True)
+            currUser.followingUsers.add(tmpUser)
+            tmpUser.followerUsers.add(currUser)
 
-        return HttpResponse('successfully follow user')
+            return HttpResponse('successfully follow user')
 
-    else:
-        addNotification(request, tmpUser, None, 3, False)
-        currUser.followingUsers.remove(tmpUser)
-        tmpUser.followerUsers.remove(currUser)
+        else:
+            addNotification(request, tmpUser, None, 3, False)
+            currUser.followingUsers.remove(tmpUser)
+            tmpUser.followerUsers.remove(currUser)
 
-        return HttpResponse('successfully unfollow user')
+            return HttpResponse('successfully unfollow user')
 
 
 def addNotification(request, secondUser, postID, notificationState, isAdd):
@@ -230,3 +231,25 @@ def addNotification(request, secondUser, postID, notificationState, isAdd):
                                         .filter(post=notification.post) \
                                         .filter(notificationState=notification.notificationState).delete()
 
+
+def search(request):
+    searchText = request.GET['search']
+    type = int(request.GET['type'])
+    isInSearchPage = True if request.GET.get('isInSearch', False) is not False else False
+
+    if request.is_ajax():
+        if searchText != '':
+            if type == 1:
+                films = Film.objects.filter(name__contains=searchText)[:5]
+                return render(request, 'search_result_film.html', {'films': films, 'isInSearch': isInSearchPage})
+
+            if type == 2:
+                users = MyUser.objects.filter(user__username__contains=searchText)[:5]
+                return render(request, 'search_result_users.html', {'users': users, 'isInSearch': isInSearchPage,
+                                                                    'currUser': get_object_or_404(MyUser, user=request.user)})
+
+    else:
+        films = Film.objects.filter(name__contains=searchText)
+        users = MyUser.objects.filter(user__username__contains=searchText)
+        return render(request, 'search.html', {'films': films, 'users': users,
+                                               'currUser': get_object_or_404(MyUser, user=request.user)})
