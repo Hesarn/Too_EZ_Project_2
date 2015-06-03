@@ -1,5 +1,6 @@
 $('.film_score').bind('click', function(){
     $('#rating > img').attr('src' , '/static/img/0.png');
+    $('#rating > img:first-child').attr('src' , '/static/img/1.png');
     $('.popup_div textarea').val('');
 });
 

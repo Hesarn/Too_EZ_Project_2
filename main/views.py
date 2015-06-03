@@ -54,8 +54,8 @@ def signup(request):
                 _newUser = User.objects.create_user(username=request.POST['username'], password=request.POST['password']
                                                     , first_name=request.POST['name'], email=request.POST['email'])
                 newUser.user = _newUser
-                newUser.birthday = request.POST['birthday_day'] + '/' + request.POST['birthday_month'] + '/' + \
-                                   request.POST['birthday_year']
+                newUser.birthday = request.POST['birthday_year'] + '-' + request.POST['birthday_month'] + '-' + \
+                                   request.POST['birthday_day']
                 newUser.save()
 
             except:
@@ -253,3 +253,24 @@ def search(request):
         users = MyUser.objects.filter(user__username__contains=searchText)
         return render(request, 'search.html', {'films': films, 'users': users,
                                                'currUser': get_object_or_404(MyUser, user=request.user)})
+
+@csrf_exempt
+def create_post(request, filmID):
+    film = get_object_or_404(Film, id=filmID)
+    currUser = get_object_or_404(MyUser, user=request.user)
+    body = request.POST['postBody']
+    rate = int(request.POST['rate'])
+
+    if request.POST['postBody'] != '':
+        newPost = Post()
+        newPost.body = body
+        newPost.film = film
+        newPost.score = rate
+        newPost.user = currUser
+        newPost.save()
+
+        numberOfPosts = Post.objects.filter(film=film).count()
+        average = (((film.averageScore * (numberOfPosts-1)) + rate)/numberOfPosts)
+        Film.objects.filter(id=filmID).update(averageScore=average)
+
+        return render(request, 'post.html', {'posts': [newPost], 'currUser': currUser})

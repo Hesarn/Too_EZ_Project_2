@@ -43,7 +43,7 @@
                 </ul>
             </div>
 
-            <div>
+            <div id="captcha">
                 {{ signupForm.captcha }}
                 <ul class="errorlist">
                     {% for error in signupForm.captcha.errors %}
@@ -58,4 +58,10 @@
 {% endblock %}
 
 
-{#{% block scripts %} <script src="{% static 'js/signup.js' %}"></script> {% endblock %}#}
+{% block scripts %}
+{#    <script src="{% static 'js/signup.js' %}"></script>#}
+
+    <script>
+        $('#captcha input').attr('placeholder', 'Entere the captcha')
+    </script>
+{% endblock %}

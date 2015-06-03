@@ -5,7 +5,7 @@ from Project2.settings import STATIC_URL
 
 class MyUser(models.Model):
     user = models.OneToOneField(User)
-    birthday = models.CharField(max_length=10, default='-1')
+    birthday = models.DateField()
     followingUsers = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
     followerUsers = models.ManyToManyField('self', blank=True, symmetrical=False)
     profilePicture = models.ImageField(default=(STATIC_URL + 'img/user.png'))
@@ -21,7 +21,7 @@ class Film(models.Model):
     name = models.CharField(max_length=50)
     picture = models.ImageField(default=(STATIC_URL + 'img/user.png'))
     description = models.TextField()
-    averageScore = models.IntegerField(default=0)
+    averageScore = models.FloatField(default=0)
     imdbLink = models.CharField(max_length=200)
     profileLink = models.CharField(max_length=200, default='movieProfile.html')
 

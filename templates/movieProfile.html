@@ -1,5 +1,6 @@
 {% extends 'Header_Aside_Template.html' %}
 {% load static %}
+{% load my_filters %}
 
 {% block extraCSS %} <link rel="stylesheet" type="text/css" href="{% static 'css/popupStyle.css' %}"> {% endblock %}
 
@@ -7,10 +8,10 @@
     <div id="postsWrapper">
         <div class="post">
             <h1> {{ film.name }} </h1>
-            <a href="#comment_film"> <img src="{% static 'img/rate_10.png' %}" class="film_score"></a>
+            <a href="#comment_film"> <img src="/static/img/rate_{{ film.averageScore|round }}.png" class="film_score"></a>
             <a href="#x" class="overlay" id="comment_film"></a>
 
-            <div class="popup">
+            <div class="popup" formAction="{% url 'createPost' %}/{{ film.id }}">
                 <div class="suggested_movie">
                     <a href=""><img src="{{ film.picture.url }}" title="{{ film.name }}" class="left_img suggested_movie_img"></a>
                     <a href=""><h2> {{ film.name }} </h2></a>
@@ -18,8 +19,8 @@
                     <br><br>
                     <span> Rate this movie: </span>
 
-                    <div id="rating">
-                        <img src="{% static 'img/0.png' %}" rate="1">
+                    <div id="rating" rate="1">
+                        <img src="{% static 'img/1.png' %}" rate="1">
                         <img src="{% static 'img/0.png' %}" rate="2">
                         <img src="{% static 'img/0.png' %}" rate="3">
                         <img src="{% static 'img/0.png' %}" rate="4">
@@ -42,8 +43,8 @@
                     <textarea placeholder="Write a comment"></textarea>
                 </div>
                 <div class="popup_buttons">
-                    <a href="#close"><input type=submit value="OK"/></a>
-                    <a href="#close"><input type=submit value="Cancel"/></a>
+                    <a href=""><input id='postFilm' type=submit value="OK"/></a>
+                    <a href="#"><input type=submit value="Cancel"/></a>
                 </div>
             </div>
             <a href=""><img src="{% static 'img/imdb.png' %}"  class="imdb_img"></a>
@@ -64,4 +65,5 @@
 
 {% block extraScripts %}
     <script src="{% static 'js/setRatingImage.js' %}"></script>
+    <script src="{% static 'js/postAboutFilm.js' %}"></script>
 {% endblock %}

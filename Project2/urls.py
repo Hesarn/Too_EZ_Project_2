@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^ajax/follow_unfollow/(\d+)$', 'main.views.follow_action'),
     url(r'^search/$', 'main.views.search', name='search'),
     url(r'^search/(\w+)$', 'main.views.search'),
+    url(r'^createPost$', 'main.views.create_post', name='createPost'),
+    url(r'^createPost/(\d+)$', 'main.views.create_post'),
 ]

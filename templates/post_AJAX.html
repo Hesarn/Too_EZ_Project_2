@@ -17,12 +17,12 @@
                     <a href=""><img src="{{ post.film.picture.url }}" title="{{ post.film.name }}" class="left_img suggested_movie_img"></a>
                     <a href=""><h2> {{ post.film.name }} </h2></a>
                     <p> Director: No Director </p>
-                    <img src="{% static 'img/rate_08.png' %}"><br>
+                    <img src="/static/img/rate_{{ post.score }}.png"><br>
                     <a href="" class="suggested_movie_imdb"><img src="{% static 'img/IMDB.png' %}"></a>
                 </div>
             </div>
 
-            <img src="{% static 'img/rate_10.png' %}" class="rate_img">
+            <img src="/static/img/rate_{{ post.score }}.png" class="rate_img">
             <div class="post_content">
                 <p>
                     {{ post.body }}
