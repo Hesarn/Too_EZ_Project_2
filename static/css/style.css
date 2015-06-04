@@ -98,8 +98,9 @@ aside {
 
 .post_body {
 	min-height: 340px;
-	margin-bottom: -10px;
     position: relative;
+    line-height: 20px;
+    font-family: 'new times roman';
 }
 
 .post_time {
@@ -577,4 +578,16 @@ header form
 {
     height: 30px;
     padding-left: 4px;
+}
+
+.movie_rate
+{
+    float: right;
+    position: relative;
+    top: 10px;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: gold;
+    font-family: cursive;
+    padding: 4px;
 }

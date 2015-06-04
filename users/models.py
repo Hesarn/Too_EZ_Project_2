@@ -32,13 +32,20 @@ class Film(models.Model):
         return self.name, self.picture.url
 
 
-class Cast(models.Model):
+class Person(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Cast(models.Model):
+    person = models.ForeignKey(Person, null=True)
     roleName = models.CharField(max_length=100)
     film = models.ForeignKey(Film)
 
     def __str__(self):
-        return self.name
+        return self.person.name
 
 
 class Post(models.Model):

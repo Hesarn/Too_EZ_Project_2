@@ -10,7 +10,7 @@ from users.models import MyUser, Post, Comment, Notification
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-import json
+import json, random
 from django.template import Context, Template
 
 from django.core.serializers.json import DjangoJSONEncoder
@@ -273,4 +273,28 @@ def create_post(request, filmID):
         average = (((film.averageScore * (numberOfPosts-1)) + rate)/numberOfPosts)
         Film.objects.filter(id=filmID).update(averageScore=average)
 
-        return render(request, 'post.html', {'posts': [newPost], 'currUser': currUser})
+        return HttpResponseRedirect(reverse('showPost', args=[currUser.id, newPost.id]))
+
+@csrf_exempt
+def random_aside(request):
+    films = Film.objects.all()
+    random_numbers = random.sample(range(films.count()), 3)
+    random_list = []
+
+    for i in random_numbers:
+        tmp = {'type': 'film', 'name': films[i].name, 'picture': films[i].picture.url,
+               'rate': round(films[i].averageScore), 'profile': reverse('movieProfile', args=[films[i].name])}
+        random_list.append(tmp)
+
+
+    users = MyUser.objects.all()
+    random_user = users[random.randint(0, users.count()-1)]
+
+    while random_user == get_object_or_404(MyUser, user=request.user):
+        random_user = users[random.randint(0, users.count()-1)]
+
+    random_list.append({'type': 'user', 'name': random_user.user.username, 'picture': random_user.profilePicture.url,
+                        'profile': reverse('showProfile' ,args=[random_user.id])})
+
+    return HttpResponse(json.dumps(random_list))
+

@@ -1,5 +1,6 @@
 {% extends 'Header_Aside_Template.html' %}
 {% load static %}
+{% load my_filters %}
 
 {% block  posts%}
     <div id="searchTabs">
@@ -11,10 +12,10 @@
             {% for film in films %}
                 <div id="movieResult">
                     <div class="suggested_movie">
-                        <a href=""><img src="{{ film.picture.url }}" title="{{ film.name }}"
+                        <a href="{% url 'movieProfile' film.name %}"><img src="{{ film.picture.url }}" title="{{ film.name }}"
                                                                             class="left_img suggested_movie_img"></a>
-                        <a href=""><h2> {{ film.name }} </h2></a>
-                        <img src="{% static 'img/rate_10.png' %}">
+                        <a href="{% url 'movieProfile' film.name %}"><h2> {{ film.name }} </h2></a>
+                        <img src="/static/img/rate_{{ film.averageScore|round }}.png">
                         <a href="{{ film.imdbLink }}" class="suggested_movie_imdb"><img src="{% static 'img/IMDB.png' %}"
                                                                      class="imdb_img"></a>
                     </div>
@@ -26,20 +27,20 @@
         <div id="usersResult">
             {% for user in users %}
                <div class="post_header">
-                    <a href="{% url 'showProfile' %}/{{ user.id }}"><img src="{{ user.profilePicture.url }}"
+                    <a href="{% url 'showProfile' user.id %}"><img src="{{ user.profilePicture.url }}"
                                                                          title="{{ user.user.username }}"
                                                                          class="left_img profile_img"></a>
                     <p>
-                        <a href="{% url 'showProfile' %}/{{ user.id }}"> {{ user.user.username }} </a>
+                        <a href="{% url 'showProfile' user.id %}"> {{ user.user.username }} </a>
 
                         {% if user != currUser %}
                             {% if user in currUser.followingUsers.all %}
-                                <a href="{% url 'followUnfollow' %}/{{ user.id }}"><input type="submit" name="commit" value="Unfollow"
+                                <a href="{% url 'followUnfollow' user.id %}"><input type="submit" name="commit" value="Unfollow"
                                                                              class="ff_button unfollow"></a>
                             {% endif %}
 
                             {% if user not in currUser.followingUsers.all %}
-                                <a href="{% url 'followUnfollow' %}/{{ user.id }}"><input type="submit" name="commit" value="Follow"
+                                <a href="{% url 'followUnfollow' user.id %}"><input type="submit" name="commit" value="Follow"
                                                                            class="ff_button follow"></a>
                             {% endif %}
                         {% endif %}
@@ -47,13 +48,13 @@
                     </p>
 
                     <h5>
-                        <a href="{% url 'showUsers' %}/following/{{ user.id }}" class="ezClass">
+                        <a href="{% url 'showUsers' 'following' user.id %}" class="ezClass">
                             following: <span> {{ user.followingUsers.all|length }} </span>
                         </a>
                     </h5>
 
                     <h5>
-                        <a href="{% url 'showUsers' %}/follower/{{ user.id }}" class="ezClass">
+                        <a href="{% url 'showUsers' 'follower' user.id %}" class="ezClass">
                             followers: <span> {{ user.followerUsers.all|length }} </span>
                         </a>
                     </h5>
@@ -70,4 +71,5 @@
     <script src="{% static "js/search_in_searchPage.js" %}"></script>
     <script src="{% static 'js/searchPage.js' %}"></script>
     <script src="{% static 'js/follow_unfollow.js' %}"></script>
+    <script src="{% static 'js/random_aside.js' %}"></script>
 {% endblock %}

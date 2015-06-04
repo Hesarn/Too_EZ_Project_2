@@ -4,7 +4,7 @@
 {% block extendedHeader %}
     <a href="{% url 'logout' %}"><img src="{% static "img/exit.png" %}" class="right_img header_img"></a>
     <a href=""><img src="{% static "img/setting.png" %}" class="right_img header_img"></a>
-    <a href="{% url 'showProfile' %}"><img src="{% static "img/user.png" %}" class="right_img header_img"></a>
+    <a href="{% url 'showProfile' currUser.id%}"><img src="{% static "img/user.png" %}" class="right_img header_img"></a>
     <a href=""><img id="notif_pic" src="{% static "img/notif.png" %}" class="right_img header_img"></a>
 
     <div id='notif' style="display: none;">
@@ -13,20 +13,20 @@
                 <div class="suggested_people">
                     <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture.url }}" class="left_img"></a>
                     <p>
-                        <a href="{% url 'showProfile' %}/{{ notif.firstUser.id }}">
+                        <a href="{% url 'showProfile' notif.firstUser.id%}">
                             {{ notif.firstUser.user.username }}
                         </a>
 
                         {% if notif.notificationState == 1 %}
                             liked your
-                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                            <a href="{% url 'showPost' notif.post.user.id notif.post.id %}">
                                 post
                             </a>.
                         {% endif %}
 
                         {% if notif.notificationState == 2 %}
                             commented on your
-                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                            <a href="{% url 'showPost' notif.post.user.id notif.post.id%}">
                                 post
                             </a>.
                         {% endif %}
@@ -37,7 +37,7 @@
 
                         {% if notif.notificationState == 4 %}
                             commented on the
-                            <a href="{% url 'showPost' %}/{{ notif.post.user.id }}/{{ notif.post.id }}">
+                            <a href="{% url 'showPost' notif.post.user.id notif.post.id%}">
                                 post
                             </a>
                             that you commented before.
@@ -52,37 +52,10 @@
 
 
 {% block content %}
-    <aside>
+    <aside address="{% url 'aside' %}">
         <h1> Suggested Movies </h1>
         <hr>
-        <div class="suggested_movie">
-            <a href=""><img src="{% static "img/int.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
-            <a href=""><h2>Interstellar</h2></a>
-            <img src="{% static "img/rate_10.png" %}">
-            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
-        </div>
-        <hr>
-        <div class="suggested_movie">
-            <a href=""><img src="{% static "img/inc.png" %}" title="Interstellar" class="left_img suggested_movie_img"></a>
-            <a href=""><h2>Interstellar</h2></a>
-            <img src="{% static "img/rate_10.png" %}">
-            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
-        </div>
-        <hr>
-        <div class="suggested_movie">
-            <a href=""><img src="{% static "img/btd.png" %}" title="The Dark Knigt" class="left_img suggested_movie_img"></a>
-            <a href=""><h2>The Dark Knigt</h2></a>
-            <img src="{% static "img/rate_9.png" %}">
-            <a href="" class="suggested_movie_imdb"><img src="{% static "img/IMDB.png" %}"></a>
-        </div>
-        <hr>
-        <h1> Suggested People </h1>
-        <hr>
-        <div class="suggested_people">
-            <a href="" title="Navid Mashayekhi"><img src="{% static "img/user.png" %}" class="left_img"></a>
-            <a href=""><h2>Navid Mashayekhi</h2></a>
-            <h6>followers:0 following:0</h6>
-        </div>
+
     </aside>
 
     <div id="postsWrapper">
@@ -98,5 +71,6 @@
     <script src="{% static "js/showTooltip.js" %}"></script>
     <script src="{% static "js/likePost.js" %}"></script>
     <script src="{% static "js/search.js" %}"></script>
+    <script src="{% static "js/random_aside.js" %}"></script>
     {% block extraScripts %} {% endblock %}
 {% endblock %}

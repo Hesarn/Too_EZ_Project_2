@@ -11,11 +11,11 @@
             <a href="#comment_film"> <img src="/static/img/rate_{{ film.averageScore|round }}.png" class="film_score"></a>
             <a href="#x" class="overlay" id="comment_film"></a>
 
-            <div class="popup" formAction="{% url 'createPost' %}/{{ film.id }}">
+            <div class="popup" formAction="{% url 'createPost' film.id %}">
                 <div class="suggested_movie">
                     <a href=""><img src="{{ film.picture.url }}" title="{{ film.name }}" class="left_img suggested_movie_img"></a>
                     <a href=""><h2> {{ film.name }} </h2></a>
-                    <a href=""><img src="{% static 'img/IMDB.png' %}"></a>
+                    <a href="{{ film.imdbLink }}"><img src="{% static 'img/IMDB.png' %}"></a>
                     <br><br>
                     <span> Rate this movie: </span>
 
@@ -40,14 +40,17 @@
                         <a href=""><img src="{{ currUser.profilePicture.url }}" class="left_img profile_img"></a>
                     <p> {{ currUser.user.username }} </p>
                     </div>
-                    <textarea placeholder="Write a comment"></textarea>
+                    <textarea placeholder="Write your comment about {{ film.name }}"></textarea>
                 </div>
                 <div class="popup_buttons">
                     <a href=""><input id='postFilm' type=submit value="OK"/></a>
                     <a href="#"><input type=submit value="Cancel"/></a>
                 </div>
             </div>
-            <a href=""><img src="{% static 'img/imdb.png' %}"  class="imdb_img"></a>
+            <a href="{{ film.imdbLink }}"><img src="{% static 'img/imdb.png' %}"  class="imdb_img"></a>
+
+            <div class="movie_rate"> average rate: {{ film.averageScore|decimal }} </div>
+
             <hr>
             <div class="post_body">
                 <img src="{{ film.picture.url }}" class="right_img">

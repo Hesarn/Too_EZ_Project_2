@@ -8,8 +8,15 @@ def age(birthday_year):
     return datetime.datetime.now().year - birthday_year
 
 @register.filter(name='round')
-def round(num):
-    if num-int(num) > 0.5:
-        return ceil(num)
-    else:
-        return floor(num)
+def roundNumber(num):
+    return round(num)
+
+
+@register.filter(name='decimal')
+def decimal(num):
+    return int(num) + 0.1*(int(num*10)%10)
+
+
+
+
+
