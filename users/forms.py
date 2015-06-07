@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.forms.extras.widgets import SelectDateWidget
 from captcha.fields import CaptchaField
-
+from .models import MyUser
 
 class loginForm(forms.Form):
     username = forms.CharField(label='', widget=forms.TextInput(attrs={'name': "user",
@@ -34,5 +34,20 @@ class signupForm(forms.Form):
             raise forms.ValidationError("Entered passwords do not match.")
 
 
+class editForm(forms.ModelForm):
+    name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'input'}))
+    # birthday = forms.DateField(widget=forms.TextInput(attrs={'id': 'datepicker'}))
+    # profilePicture = forms.ImageField()
+
+    class Meta:
+        model = MyUser
+        fields = {'birthday', 'profilePicture'}
+
+    def __init__(self, *args, **kwargs):
+        _user = kwargs['user']
+        _kwargs = kwargs.pop('user')
+        super(editForm, self).__init__(*args, **kwargs)
+        self.fields['birthday'].widget = forms.TextInput(attrs={'id': 'datepicker', 'value': _user.birthday})
+        self.fields['name'].widget = forms.TextInput(attrs={'class': 'input', 'value': _user.user.first_name})
 
 

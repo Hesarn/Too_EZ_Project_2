@@ -24,6 +24,11 @@
                     {% endif %}
                 {% endif %}
 
+                {% if user == currUser %}
+                    <a href="{% url 'editProfile' %}"><input type="submit" name="commit" value="Edit your profile"
+                                                                   class="edit-profile"></a>
+                {% endif %}
+
             </p>
 
             <h5>

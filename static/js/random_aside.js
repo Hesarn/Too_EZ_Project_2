@@ -21,8 +21,9 @@ $.ajax(
                         '<a href="' + obj['profile'] + '"><img src="' + obj['picture'] + '" ' +
                         'title="' + obj['name'] + '" class="left_img suggested_movie_img"></a>' +
                         '<a href="' + obj['profile'] + '"><h2>' + obj['name'] + '</h2></a>' +
-                        '<img src="/static/img/rate_' + obj['rate'] + '.png" %}">' +
-                        '<a href="" class="suggested_movie_imdb"><img src="/static/img/IMDB.png"></a>' +
+                        '<img src="/static/img/rate_' + Math.round(obj['rate']) + '.png" %}">' +
+                        '<div class="avgRate"> Average rate: ' + (Math.floor(obj['rate']) + 0.1*(Math.floor(obj['rate']*10)%10)) +
+                        '</div> <a href="" class="suggested_movie_imdb"><img src="/static/img/IMDB.png"></a>' +
                         '</div><hr>')
                     }
 
@@ -34,6 +35,7 @@ $.ajax(
                         '<a href="' + obj['profile'] + '" title="' + obj['name'] + '">' +
                         '<img src="' + obj['picture'] + '" class="left_img"></a>' +
                         '<a href="' + obj['profile'] + '"><h2>' + obj['name'] + ' </h2></a>' +
+                        '<div class="age-aside"> age: ' + obj['age'] + '</div>' +
                         '</div>')
                     }
                 }

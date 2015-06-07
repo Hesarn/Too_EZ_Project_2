@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from users.forms import loginForm, signupForm
+from users.forms import loginForm, signupForm, editForm
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -10,7 +10,7 @@ from users.models import MyUser, Post, Comment, Notification
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-import json, random
+import json, random, datetime
 from django.template import Context, Template
 
 from django.core.serializers.json import DjangoJSONEncoder
@@ -101,25 +101,14 @@ def show_post(request, userID, postID):
                                          'currUser': get_object_or_404(MyUser, user=request.user),
                                          'posts': Post.objects.filter(id=postID)})
 
-
 @login_required()
-def show_user_profile(request):
-    reqUser = get_object_or_404(MyUser, user=request.user)
-    return render(request, 'userProfile.html', {'user': reqUser,
-                                                'currUser': get_object_or_404(MyUser, user=request.user),
-                                                'posts': Post.objects.filter(user=reqUser),
-                                                'isThisUser': True})
+def show_profile(request, userID):
+    _user = get_object_or_404(MyUser, id=userID)
+    requestUser = get_object_or_404(MyUser, user=request.user)
 
-@login_required()
-def show_other_profiles(request, userID):
-    if get_object_or_404(MyUser, user=request.user) == get_object_or_404(MyUser, id=userID):
-        return show_user_profile(request)
-
-    else:
-        reqUser = get_object_or_404(MyUser, id=userID)
-        return render(request, 'userProfile.html', {'user': get_object_or_404(MyUser, id=userID),
-                                                    'currUser': get_object_or_404(MyUser, user=request.user),
-                                                    'posts': Post.objects.filter(user=reqUser)})
+    return render(request, 'userProfile.html', {'user': _user,
+                                                'currUser': requestUser,
+                                                'posts': Post.objects.filter(user=_user)})
 
 @csrf_exempt
 @login_required()
@@ -134,6 +123,7 @@ def ajax_get_post(request, postNumber):
 
 
 @csrf_exempt
+@login_required()
 def ajax_comment_on_post(request, postID):
     post = get_object_or_404(Post, id=postID)
 
@@ -159,6 +149,7 @@ def ajax_comment_on_post(request, postID):
         return render(request, 'comment_AJAX.html', {'cm': comment})
 
 @csrf_exempt
+@login_required()
 def ajax_like_post(request, postID):
     if request.is_ajax():
         post = get_object_or_404(Post, id=postID)
@@ -175,6 +166,8 @@ def ajax_like_post(request, postID):
             post.likeUsers.remove(currUser)
             return HttpResponse('unliked !')
 
+
+@login_required()
 def show_users(request, follow, userID):
     if follow == 'following':
         return render(request, 'person.html', {'users': get_object_or_404(MyUser, id=userID).followingUsers.all(),
@@ -185,6 +178,7 @@ def show_users(request, follow, userID):
                                                'currUser': get_object_or_404(MyUser, user=request.user)})
 
 @csrf_exempt
+@login_required()
 def follow_action(request, userID):
     if request.is_ajax():
         currUser = get_object_or_404(MyUser, user=request.user)
@@ -254,6 +248,7 @@ def search(request):
         return render(request, 'search.html', {'films': films, 'users': users,
                                                'currUser': get_object_or_404(MyUser, user=request.user)})
 
+@login_required()
 @csrf_exempt
 def create_post(request, filmID):
     film = get_object_or_404(Film, id=filmID)
@@ -275,6 +270,7 @@ def create_post(request, filmID):
 
         return HttpResponseRedirect(reverse('showPost', args=[currUser.id, newPost.id]))
 
+@login_required()
 @csrf_exempt
 def random_aside(request):
     films = Film.objects.all()
@@ -283,7 +279,7 @@ def random_aside(request):
 
     for i in random_numbers:
         tmp = {'type': 'film', 'name': films[i].name, 'picture': films[i].picture.url,
-               'rate': round(films[i].averageScore), 'profile': reverse('movieProfile', args=[films[i].name])}
+               'rate': films[i].averageScore, 'profile': reverse('movieProfile', args=[films[i].name])}
         random_list.append(tmp)
 
 
@@ -294,7 +290,32 @@ def random_aside(request):
         random_user = users[random.randint(0, users.count()-1)]
 
     random_list.append({'type': 'user', 'name': random_user.user.username, 'picture': random_user.profilePicture.url,
-                        'profile': reverse('showProfile' ,args=[random_user.id])})
+                        'profile': reverse('showProfile', args=[random_user.id]),
+                        'age': datetime.datetime.now().year - random_user.birthday.year})
 
     return HttpResponse(json.dumps(random_list))
 
+
+@login_required()
+def edit_profile(request):
+    user = get_object_or_404(MyUser, user=request.user)
+
+    if request.method == 'GET':
+        return render(request, 'edit_profile.html', {'currUser': user,
+                                                     'user': user,
+                                                     'form': editForm(user=user)})
+
+    else:
+        form = editForm(request.POST, request.FILES, user=user, instance=user)
+
+        if form.is_valid():
+            form.save()
+            User.objects.filter(id=user.user.id).update(first_name=form.cleaned_data['name'])
+            return render(request, 'userProfile.html', {'currUser': user,
+                                                        'user': user,
+                                                        'posts': Post.objects.filter(user=user)})
+
+        else:
+            return render(request, 'edit_profile.html', {'currUser': user,
+                                                         'user': user,
+                                                         'form': form})

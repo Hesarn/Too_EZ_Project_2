@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^logout/$', 'main.views.logout_user', name="logout"),
     url(r'^movieProfile/(\w+)$', 'main.views.movie_profile', name="movieProfile"),
     url(r'^post/(\d+)/(\d+)$', 'main.views.show_post', name='showPost'),
-    url(r'^profile/(\d+)$', 'main.views.show_other_profiles', name='showProfile'),
+    url(r'^profile/(\d+)$', 'main.views.show_profile', name='showProfile'),
     url(r'^ajax/(\d+)$', 'main.views.ajax_get_post'),
     url(r'^ajax/commentOnPost/(\d+)$', 'main.views.ajax_comment_on_post', name='comment'),
     url(r'^ajax/likePost/(\d+)$', 'main.views.ajax_like_post', name='likePost'),
@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^search/(\w+)$', 'main.views.search'),
     url(r'^createPost/(\d+)$', 'main.views.create_post', name='createPost'),
     url(r'^ajax/aside$', 'main.views.random_aside', name='aside'),
+    url(r'^edit$', 'main.views.edit_profile', name='editProfile'),
 ]

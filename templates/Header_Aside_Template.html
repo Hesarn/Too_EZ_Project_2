@@ -11,7 +11,8 @@
         {% for notif in currUser.second.all reversed %}
             {% if forloop.counter <= 5 %}
                 <div class="suggested_people">
-                    <a href="" title="{{ notif.firstUser }}"><img src="{{ notif.firstUser.profilePicture.url }}" class="left_img"></a>
+                    <a href="{% url 'showProfile' notif.firstUser.id%}" title="{{ notif.firstUser }}">
+                        <img src="{{ notif.firstUser.profilePicture.url }}" class="left_img"></a>
                     <p>
                         <a href="{% url 'showProfile' notif.firstUser.id%}">
                             {{ notif.firstUser.user.username }}

@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
-from Project2.settings import STATIC_URL
+from Project2.settings import STATIC_URL, MEDIA_ROOT
 
 class MyUser(models.Model):
     user = models.OneToOneField(User)
     birthday = models.DateField()
     followingUsers = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
     followerUsers = models.ManyToManyField('self', blank=True, symmetrical=False)
-    profilePicture = models.ImageField(default=(STATIC_URL + 'img/user.png'))
+    profilePicture = models.FileField(upload_to='photo/', default=(STATIC_URL + 'img/user.png'))
 
     def __str__(self):
         return self.user.username

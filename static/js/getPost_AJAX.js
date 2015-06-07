@@ -1,7 +1,7 @@
 
 $(window).scroll(function()
 {
-    if($(window).scrollTop() == ($(document).height() - $(window).height()))
+    if($(window).scrollTop() >= ($(document).height() - $(window).height()) - 10)
     {
         var destination = "../ajax/" + $('#postsWrapper').children().length;
 
