@@ -8,7 +8,7 @@ class MyUser(models.Model):
     birthday = models.DateField()
     followingUsers = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
     followerUsers = models.ManyToManyField('self', blank=True, symmetrical=False)
-    profilePicture = models.FileField(upload_to='photo/', default=(STATIC_URL + 'img/user.png'))
+    profilePicture = models.ImageField(upload_to='photo/', default=(STATIC_URL + 'img/user.png'))
 
     def __str__(self):
         return self.user.username

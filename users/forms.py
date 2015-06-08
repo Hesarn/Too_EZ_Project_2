@@ -51,3 +51,13 @@ class editForm(forms.ModelForm):
         self.fields['name'].widget = forms.TextInput(attrs={'class': 'input', 'value': _user.user.first_name})
 
 
+class changePassword(forms.Form):
+    current_Password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'input'}))
+    new_Password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'input'}))
+    confirm_Password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'input'}))
+
+    def clean(self):
+        if self.cleaned_data['new_Password'] != self.cleaned_data['confirm_Password']:
+            raise forms.ValidationError('Entered passwords do not match')
+
+

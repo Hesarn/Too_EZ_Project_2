@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^createPost/(\d+)$', 'main.views.create_post', name='createPost'),
     url(r'^ajax/aside$', 'main.views.random_aside', name='aside'),
     url(r'^edit$', 'main.views.edit_profile', name='editProfile'),
+    url(r'^change-password$', 'main.views.change_password', name='changePassword'),
 ]

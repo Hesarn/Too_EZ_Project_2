@@ -17,6 +17,11 @@ def decimal(num):
     return int(num) + 0.1*(int(num*10)%10)
 
 
+@register.filter(name='_replace')
+def replace(name):
+    return name.replace('_', ' ')
+
+
 
 
 

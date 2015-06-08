@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from users.forms import loginForm, signupForm, editForm
+from users.forms import loginForm, signupForm, editForm, changePassword
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json, random, datetime
 from django.template import Context, Template
-
+from django.db.models import Q
 from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
@@ -283,10 +283,11 @@ def random_aside(request):
         random_list.append(tmp)
 
 
-    users = MyUser.objects.all()
-    random_user = users[random.randint(0, users.count()-1)]
+    currUser = get_object_or_404(MyUser, user=request.user)
+    users = MyUser.objects.exclude(Q(id__in=currUser.followingUsers.all()) | Q(id=currUser.id))
+    random_user = currUser
 
-    while random_user == get_object_or_404(MyUser, user=request.user):
+    if users.count() > 0:
         random_user = users[random.randint(0, users.count()-1)]
 
     random_list.append({'type': 'user', 'name': random_user.user.username, 'picture': random_user.profilePicture.url,
@@ -319,3 +320,32 @@ def edit_profile(request):
             return render(request, 'edit_profile.html', {'currUser': user,
                                                          'user': user,
                                                          'form': form})
+
+
+@login_required()
+def change_password(request):
+    user = get_object_or_404(MyUser, user=request.user)
+
+    if request.method == "GET":
+        return render(request, 'change_password.html', {'currUser': user, 'user': user, 'form': changePassword()})
+
+    else:
+        form = changePassword(request.POST)
+
+        if form.is_valid():
+            if user.user.check_password(request.POST['current_Password']):
+                request.user.set_password(request.POST['new_Password'])
+                request.user.save()
+
+                newUser = authenticate(username=request.user.username, password=request.POST['new_Password'])
+                login(request, newUser)
+
+                return render(request, 'userProfile.html', {'currUser': user, 'user': user, 'form': form,
+                                                            'posts': Post.objects.filter(user=user)})
+
+            else:
+                form.add_error(None, 'Entered password is wrong')
+                return render(request, 'change_password.html', {'currUser': user, 'user': user, 'form': form})
+
+        else:
+            return render(request, 'change_password.html', {'currUser': user, 'user': user, 'form': form})
